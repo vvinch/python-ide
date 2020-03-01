@@ -15,14 +15,14 @@ RUN wget https://go.microsoft.com/fwlink/?LinkID=760868 -O vscode.deb && \
     rm vscode.deb && \
     rm -rf /var/lib/apt/lists/*
 
-# Setup extensions folder
-VOLUME /extensions
-
 # create vscode user
 RUN useradd -m vscode -s /bin/bash
 WORKDIR /src
 RUN mkdir -p /extensions && \
     chown vscode /extensions
+
+# Setup extensions folder
+VOLUME /extensions
 
 USER vscode
 
