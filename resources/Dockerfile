@@ -21,7 +21,7 @@ VOLUME /extensions
 # create vscode user
 RUN useradd -m vscode -s /bin/bash
 WORKDIR /src
-RUN mkdir /extensions && \
+RUN mkdir -p /extensions && \
     chown vscode /extensions
 
 USER vscode
