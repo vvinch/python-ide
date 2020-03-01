@@ -1,0 +1,27 @@
+#!/bin/bash
+xhost +
+
+for arg in "$@"
+do
+  if [ $arg = "noproxy" ]; then
+    evar=" -e HTTP_PROXY -e HTTPS_PROXY -e http_proxy -e https_proxy "
+    echo "running container without proxy."
+  else
+    echo "ERROR: unknonw argument: $arg"
+    exit 1 
+  fi
+done
+
+
+
+docker run --rm -it -v /tmp/.X11-unix:/tmp/.X11-unix \
+                    -v /dev/shm:/dev/shm \
+                    -v $(pwd):/src \
+                    -v python-ide-ext-volume:/extensions \
+										-v python-ide-settings-volume:/home/vscode/.config/Code/User \
+										${evar} \
+                    --cap-add=SYS_PTRACE \
+                    --security-opt apparmor=unconfined \
+                    --security-opt seccomp=unconfined \
+                    vvinch/python-ide:debian
+
